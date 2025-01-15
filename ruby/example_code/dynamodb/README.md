@@ -34,22 +34,29 @@ For prerequisites, see the [README](../../README.md#Prerequisites) in the `ruby`
 - [Hello DynamoDB](hello/hello_dynamodb.rb#L4) (`ListTables`)
 
 
+### Basics
+
+Code examples that show you how to perform the essential operations within a service.
+
+- [Learn the basics](scaffold.rb)
+
+
 ### Single actions
 
 Code excerpts that show you how to call individual service functions.
 
-- [BatchExecuteStatement](partiql/partiql_batch.rb#L12)
-- [BatchWriteItem](scaffold.rb#L83)
-- [CreateTable](scaffold.rb#L56)
-- [DeleteItem](basics/dynamodb_basics.rb#L127)
-- [DeleteTable](scaffold.rb#L109)
-- [DescribeTable](scaffold.rb#L37)
-- [ExecuteStatement](partiql/partiql_single.rb#L12)
+- [BatchExecuteStatement](partiql/partiql_batch.rb#L22)
+- [BatchWriteItem](scaffold.rb#L81)
+- [CreateTable](scaffold.rb#L53)
+- [DeleteItem](basics/dynamodb_basics.rb#L129)
+- [DeleteTable](scaffold.rb#L108)
+- [DescribeTable](scaffold.rb#L34)
+- [ExecuteStatement](partiql/partiql_single.rb#L22)
 - [GetItem](basics/dynamodb_basics.rb#L40)
-- [ListTables](scaffold.rb#L20)
-- [PutItem](basics/dynamodb_basics.rb#L23)
+- [ListTables](scaffold.rb#L34)
+- [PutItem](basics/dynamodb_basics.rb#L21)
 - [Query](basics/dynamodb_basics.rb#L75)
-- [Scan](basics/dynamodb_basics.rb#L94)
+- [Scan](basics/dynamodb_basics.rb#L95)
 - [UpdateItem](basics/dynamodb_basics.rb#L55)
 
 ### Scenarios
@@ -57,7 +64,6 @@ Code excerpts that show you how to call individual service functions.
 Code examples that show you how to accomplish a specific task by calling multiple
 functions within the same service.
 
-- [Get started with tables, items, and queries](scaffold.rb)
 - [Query a table by using batches of PartiQL statements](partiql/scenario_partiql_batch.rb)
 - [Query a table using PartiQL](partiql/scenario_partiql_single.rb)
 
@@ -81,8 +87,7 @@ This example shows you how to get started using DynamoDB.
 ruby hello/hello_dynamodb.rb
 ```
 
-
-#### Get started with tables, items, and queries
+#### Learn the basics
 
 This example shows you how to do the following:
 
@@ -93,8 +98,8 @@ This example shows you how to do the following:
 - Scan for movies that were released in a range of years.
 - Delete a movie from the table, then delete the table.
 
-<!--custom.scenario_prereqs.dynamodb_Scenario_GettingStartedMovies.start-->
-<!--custom.scenario_prereqs.dynamodb_Scenario_GettingStartedMovies.end-->
+<!--custom.basic_prereqs.dynamodb_Scenario_GettingStartedMovies.start-->
+<!--custom.basic_prereqs.dynamodb_Scenario_GettingStartedMovies.end-->
 
 Start the example by running the following at a command prompt:
 
@@ -102,8 +107,9 @@ Start the example by running the following at a command prompt:
 ruby scaffold.rb
 ```
 
-<!--custom.scenarios.dynamodb_Scenario_GettingStartedMovies.start-->
-<!--custom.scenarios.dynamodb_Scenario_GettingStartedMovies.end-->
+<!--custom.basics.dynamodb_Scenario_GettingStartedMovies.start-->
+<!--custom.basics.dynamodb_Scenario_GettingStartedMovies.end-->
+
 
 #### Query a table by using batches of PartiQL statements
 

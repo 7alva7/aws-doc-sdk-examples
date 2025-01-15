@@ -34,35 +34,42 @@ For prerequisites, see the [README](../README.md#Prerequisites) in the `dotnetv3
 - [Hello Amazon EC2](Actions/HelloEC2.cs#L4) (`DescribeSecurityGroups`)
 
 
+### Basics
+
+Code examples that show you how to perform the essential operations within a service.
+
+- [Learn the basics](Scenarios/EC2_Basics/EC2Basics.cs)
+
+
 ### Single actions
 
 Code excerpts that show you how to call individual service functions.
 
-- [AllocateAddress](Actions/EC2Wrapper.cs#L19)
-- [AssociateAddress](Actions/EC2Wrapper.cs#L33)
-- [AuthorizeSecurityGroupIngress](Actions/EC2Wrapper.cs#L55)
-- [CreateKeyPair](Actions/EC2Wrapper.cs#L98)
-- [CreateLaunchTemplate](../cross-service/ResilientService/AutoScalerActions/AutoScalerWrapper.cs#L260)
-- [CreateSecurityGroup](Actions/EC2Wrapper.cs#L145)
-- [DeleteKeyPair](Actions/EC2Wrapper.cs#L190)
-- [DeleteLaunchTemplate](../cross-service/ResilientService/AutoScalerActions/AutoScalerWrapper.cs#L402)
-- [DeleteSecurityGroup](Actions/EC2Wrapper.cs#L223)
-- [DescribeAvailabilityZones](../cross-service/ResilientService/AutoScalerActions/AutoScalerWrapper.cs#L304)
-- [DescribeIamInstanceProfileAssociations](../cross-service/ResilientService/AutoScalerActions/AutoScalerWrapper.cs#L495)
-- [DescribeInstanceTypes](Actions/EC2Wrapper.cs#L395)
-- [DescribeInstances](Actions/EC2Wrapper.cs#L316)
-- [DescribeKeyPairs](Actions/EC2Wrapper.cs#L432)
-- [DescribeSecurityGroups](Actions/EC2Wrapper.cs#L454)
-- [DescribeSubnets](../cross-service/ResilientService/AutoScalerActions/AutoScalerWrapper.cs#L371)
-- [DescribeVpcs](../cross-service/ResilientService/AutoScalerActions/AutoScalerWrapper.cs#L352)
-- [DisassociateAddress](Actions/EC2Wrapper.cs#L516)
-- [RebootInstances](Actions/EC2Wrapper.cs#L544)
-- [ReleaseAddress](Actions/EC2Wrapper.cs#L569)
-- [ReplaceIamInstanceProfileAssociation](../cross-service/ResilientService/AutoScalerActions/AutoScalerWrapper.cs#L515)
-- [RunInstances](Actions/EC2Wrapper.cs#L587)
-- [StartInstances](Actions/EC2Wrapper.cs#L616)
-- [StopInstances](Actions/EC2Wrapper.cs#L643)
-- [TerminateInstances](Actions/EC2Wrapper.cs#L680)
+- [AllocateAddress](Actions/EC2Wrapper.cs#L28)
+- [AssociateAddress](Actions/EC2Wrapper.cs#L64)
+- [AuthorizeSecurityGroupIngress](Actions/EC2Wrapper.cs#L107)
+- [CreateKeyPair](Actions/EC2Wrapper.cs#L170)
+- [CreateLaunchTemplate](../cross-service/ResilientService/AutoScalerActions/AutoScalerWrapper.cs#L263)
+- [CreateSecurityGroup](Actions/EC2Wrapper.cs#L242)
+- [DeleteKeyPair](Actions/EC2Wrapper.cs#L319)
+- [DeleteLaunchTemplate](../cross-service/ResilientService/AutoScalerActions/AutoScalerWrapper.cs#L470)
+- [DeleteSecurityGroup](Actions/EC2Wrapper.cs#L361)
+- [DescribeAvailabilityZones](../cross-service/ResilientService/AutoScalerActions/AutoScalerWrapper.cs#L325)
+- [DescribeIamInstanceProfileAssociations](../cross-service/ResilientService/AutoScalerActions/AutoScalerWrapper.cs#L574)
+- [DescribeInstanceTypes](Actions/EC2Wrapper.cs#L531)
+- [DescribeInstances](Actions/EC2Wrapper.cs#L474)
+- [DescribeKeyPairs](Actions/EC2Wrapper.cs#L578)
+- [DescribeSecurityGroups](Actions/EC2Wrapper.cs#L620)
+- [DescribeSubnets](../cross-service/ResilientService/AutoScalerActions/AutoScalerWrapper.cs#L422)
+- [DescribeVpcs](../cross-service/ResilientService/AutoScalerActions/AutoScalerWrapper.cs#L386)
+- [DisassociateAddress](Actions/EC2Wrapper.cs#L714)
+- [RebootInstances](Actions/EC2Wrapper.cs#L761)
+- [ReleaseAddress](Actions/EC2Wrapper.cs#L802)
+- [ReplaceIamInstanceProfileAssociation](../cross-service/ResilientService/AutoScalerActions/AutoScalerWrapper.cs#L611)
+- [RunInstances](Actions/EC2Wrapper.cs#L837)
+- [StartInstances](Actions/EC2Wrapper.cs#L890)
+- [StopInstances](Actions/EC2Wrapper.cs#L930)
+- [TerminateInstances](Actions/EC2Wrapper.cs#L971)
 
 ### Scenarios
 
@@ -70,7 +77,6 @@ Code examples that show you how to accomplish a specific task by calling multipl
 functions within the same service.
 
 - [Build and manage a resilient service](../cross-service/ResilientService/ResilientServiceWorkflow/ResilientServiceWorkflow.cs)
-- [Get started with instances](Scenarios/EC2_Basics/EC2Basics.cs)
 
 
 <!--custom.examples.start-->
@@ -106,6 +112,23 @@ Alternatively, you can run the example from within your IDE.
 This example shows you how to get started using Amazon EC2.
 
 
+#### Learn the basics
+
+This example shows you how to do the following:
+
+- Create a key pair and security group.
+- Select an Amazon Machine Image (AMI) and compatible instance type, then create an instance.
+- Stop and restart the instance.
+- Associate an Elastic IP address with your instance.
+- Connect to your instance with SSH, then clean up resources.
+
+<!--custom.basic_prereqs.ec2_Scenario_GetStartedInstances.start-->
+<!--custom.basic_prereqs.ec2_Scenario_GetStartedInstances.end-->
+
+
+<!--custom.basics.ec2_Scenario_GetStartedInstances.start-->
+<!--custom.basics.ec2_Scenario_GetStartedInstances.end-->
+
 
 #### Build and manage a resilient service
 
@@ -124,23 +147,6 @@ This example shows you how to create a load-balanced web service that returns bo
 
 <!--custom.scenarios.cross_ResilientService.start-->
 <!--custom.scenarios.cross_ResilientService.end-->
-
-#### Get started with instances
-
-This example shows you how to do the following:
-
-- Create a key pair and security group.
-- Select an Amazon Machine Image (AMI) and compatible instance type, then create an instance.
-- Stop and restart the instance.
-- Associate an Elastic IP address with your instance.
-- Connect to your instance with SSH, then clean up resources.
-
-<!--custom.scenario_prereqs.ec2_Scenario_GetStartedInstances.start-->
-<!--custom.scenario_prereqs.ec2_Scenario_GetStartedInstances.end-->
-
-
-<!--custom.scenarios.ec2_Scenario_GetStartedInstances.start-->
-<!--custom.scenarios.ec2_Scenario_GetStartedInstances.end-->
 
 ### Tests
 

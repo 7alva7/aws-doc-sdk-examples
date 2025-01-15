@@ -1,25 +1,36 @@
 # Copyright Amazon.com, Inc. or its affiliates. All Rights Reserved.
 # SPDX-License-Identifier: Apache-2.0
 
-from collections import defaultdict
 import datetime
 import logging
 import os
 import re
+from collections import defaultdict
 from dataclasses import asdict
-from jinja2 import Environment, FileSystemLoader, select_autoescape
+from enum import Enum
 from operator import itemgetter
 from pathlib import Path
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Tuple
 
+import config
+from aws_doc_sdk_examples_tools.categories import Category
+from aws_doc_sdk_examples_tools.entities import expand_all_entities
 from aws_doc_sdk_examples_tools.metadata import Example
 from aws_doc_sdk_examples_tools.sdks import Sdk
 from aws_doc_sdk_examples_tools.services import Service
-
-import config
+from jinja2 import Environment, FileSystemLoader, select_autoescape
 from scanner import Scanner
 
 logger = logging.getLogger(__name__)
+
+
+class RenderStatus(Enum):
+    UNCHANGED = 0
+    NO_EXAMPLES = 1
+    UNIMPLEMENTED = 2
+    UPDATED = 3
+    UNMANAGED = 4
+    NO_FOLDER = 5
 
 
 class MissingMetadataError(Exception):
@@ -118,6 +129,7 @@ class Renderer:
                 "api": api,
                 "category": pre.category,
             }
+            self._apply_defaults_and_overrides(action)
             post_examples.append(action)
         return sorted(post_examples, key=itemgetter(sort_key))
 
@@ -143,6 +155,31 @@ class Renderer:
 
         return file, run_file
 
+    def _make_plain_text(self, s: str, example: Dict[str, str]) -> [str, None]:
+        """Work around strings being Go templates and including XML tags by brute forcing them away."""
+        if s is None:
+            return s
+        return s.replace("<code>", "")\
+            .replace("</code>", "")\
+            .replace("{{.Action}}", example["api"])\
+            .replace("{{.ServiceEntity.Short}}", self.scanner.doc_gen.services[self.scanner.svc_name].short)
+
+    def _apply_defaults_and_overrides(self, example: Dict[str, str]):
+        ex_cat = "Actions" if example["category"] == "Api" else example["category"]
+        cat = self.scanner.doc_gen.categories.get(ex_cat, None)
+        if cat is not None:
+            if cat.overrides:
+                example["title"] = self._make_plain_text(cat.overrides.title, example)
+                example["title_abbrev"] = self._make_plain_text(cat.overrides.title_abbrev, example)
+                example["synopsis"] = self._make_plain_text(cat.overrides.synopsis, example)
+            elif cat.defaults:
+                if not example.get("title"):
+                    example["title"] = self._make_plain_text(cat.defaults.title, example)
+                if not example.get("title_abbrev"):
+                    example["title_abbrev"] = self._make_plain_text(cat.defaults.title_abbrev, example)
+                if not example.get("synopsis"):
+                    example["synopsis"] = self._make_plain_text(cat.defaults.synopsis, example)
+
     def _transform_hellos(self) -> List[Dict[str, str]]:
         examples = self._transform_examples(self.scanner.hellos)
         return examples
@@ -150,7 +187,14 @@ class Renderer:
     def _transform_actions(self) -> List[Dict[str, str]]:
         examples = self._transform_examples(self.scanner.actions, sort_key="api")
         for example in examples:
-            example["title_abbrev"] = example["api"]
+            del example["api"]
+        return examples
+
+    def _transform_basics(self) -> List[Dict[str, str]]:
+        examples = self._transform_examples(self.scanner.basics)
+        for example in examples:
+            example["file"] = example["run_file"]
+            del example["run_file"]
             del example["api"]
         return examples
 
@@ -176,22 +220,13 @@ class Renderer:
             post_cats[example["category"]].append(example)
 
         sorted_cats = {}
-        for key in sorted(post_cats.keys()):
+        for key in sorted(post_cats.keys(),
+                          key=lambda x: self.scanner.doc_gen.categories.get(x, Category(x, x)).display):
             if len(post_cats[key]) == 0:
                 del sorted_cats[key]
             else:
                 sorted_cats[key] = post_cats[key]
         return sorted_cats
-
-    def _expand_entities(self, readme_text: str) -> str:
-        entities = set(re.findall(r"&[\dA-Za-z-_]+;", readme_text))
-        for entity in entities:
-            expanded = self.scanner.expand_entity(entity)
-            if expanded is not None:
-                readme_text = readme_text.replace(entity, expanded)
-            else:
-                logger.warning("Entity found with no expansion defined: %s", entity)
-        return readme_text
 
     def _lang_level_double_dots(self) -> str:
         return "../" * self.lang_config["service_folder"].count("/")
@@ -241,23 +276,32 @@ class Renderer:
                             self.lang_config["sdk_api_ref"] = href
         return customs
 
-    def render(self) -> Tuple[Optional["Renderer"], bool]:
+    def render(self) -> RenderStatus:
         if self.lang_config is None:
-            return None, False  # Return False to indicate no update
+            return RenderStatus.UNIMPLEMENTED
 
         sdk = _transform_sdk(self.scanner.sdk(), self.scanner.sdk_ver)
         svc = _transform_service(self.scanner.service())
 
         hello = self._transform_hellos()
         actions = self._transform_actions()
+        basics = self._transform_basics()
         scenarios, crosses = self._transform_scenarios_and_crosses()
         custom_cats = self._transform_custom_categories()
 
         if (
-            len(hello) + len(actions) + len(scenarios) + len(custom_cats) + len(crosses)
+            len(hello)
+            + len(actions)
+            + len(basics)
+            + len(scenarios)
+            + len(custom_cats)
+            + len(crosses)
             == 0
         ):
-            return None, False
+            return RenderStatus.NO_EXAMPLES
+
+        if not self.readme_filename.parent.exists():
+            return RenderStatus.NO_FOLDER
 
         self.lang_config["name"] = self.scanner.lang_name
         self.lang_config["sdk_ver"] = self.scanner.sdk_ver
@@ -276,21 +320,27 @@ class Renderer:
             lang_config=self.lang_config,
             sdk=sdk,
             service=svc,
+            categories=self.scanner.doc_gen.categories,
             hello=hello,
             actions=actions,
+            basics=basics,
             scenarios=scenarios,
             custom_cats=custom_cats,
             crosses=crosses,
             customs=customs,
             unsupported=unsupported,
         )
-        self.readme_text = self._expand_entities(self.readme_text)
+        self.readme_text += "\n" # Jinja is the worst and strips trailing new lines
+        [text, errors] = expand_all_entities(self.readme_text, self.scanner.doc_gen.entities)
+        if errors:
+            raise errors
+        self.readme_text = text
 
         # Check if the rendered text is different from the existing file
-        readme_updated = not self.check()
-        return self, readme_updated
-
-        # return self, True
+        if self.read_current() == self.readme_text:
+            return RenderStatus.UNCHANGED
+        else:
+            return RenderStatus.UPDATED
 
     def write(self):
         if self.readme_filename.exists():
@@ -298,17 +348,24 @@ class Renderer:
                 self.readme_filename.rename(
                     self.readme_filename.parent / config.saved_readme
                 )
-
+            logging.debug("Removing existing file %s", self.readme_filename)
             # Do this so that new files are always updated to the correct case (README.md).
             self.readme_filename.unlink(missing_ok=True)
 
         with self.readme_filename.open("w", encoding="utf-8") as f:
+            logging.debug("Writing file %s", self.readme_filename)
             f.write(self.readme_text)
 
-    def check(self):
-        with self.readme_filename.open("r", encoding="utf-8") as f:
-            readme_current = f.read()
-            return readme_current == self.readme_text
+    def read_current(self):
+        try:
+            with self.readme_filename.open("r", encoding="utf-8") as f:
+                current = f.read()
+                if current[-1] != "\n":
+                    # Ensure there's always an ending newline
+                    current += "\n"
+                return current
+        except FileNotFoundError:
+            return ""
 
 
 def _transform_sdk(sdk: Sdk, sdk_ver):

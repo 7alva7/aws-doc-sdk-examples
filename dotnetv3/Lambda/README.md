@@ -34,6 +34,13 @@ For prerequisites, see the [README](../README.md#Prerequisites) in the `dotnetv3
 - [Hello Lambda](Actions/HelloLambda.cs#L4) (`ListFunctions`)
 
 
+### Basics
+
+Code examples that show you how to perform the essential operations within a service.
+
+- [Learn the basics](Actions/LambdaWrapper.cs)
+
+
 ### Single actions
 
 Code excerpts that show you how to call individual service functions.
@@ -50,12 +57,6 @@ Code excerpts that show you how to call individual service functions.
 
 Code examples that show you how to accomplish a specific task by calling multiple
 functions within the same service.
-
-- [Get started with functions](Actions/LambdaWrapper.cs)
-
-### Cross-service examples
-
-Sample applications that work across multiple AWS services.
 
 - [Create a serverless application to manage photos](../cross-service/PhotoAssetManager)
 - [Create an application to analyze customer feedback](../cross-service/FeedbackSentimentAnalyzer)
@@ -95,8 +96,7 @@ Alternatively, you can run the example from within your IDE.
 This example shows you how to get started using Lambda.
 
 
-
-#### Get started with functions
+#### Learn the basics
 
 This example shows you how to do the following:
 
@@ -106,31 +106,49 @@ This example shows you how to do the following:
 - Invoke the function with new parameters and get results. Display the returned execution log.
 - List the functions for your account, then clean up resources.
 
-<!--custom.scenario_prereqs.lambda_Scenario_GettingStartedFunctions.start-->
-<!--custom.scenario_prereqs.lambda_Scenario_GettingStartedFunctions.end-->
+<!--custom.basic_prereqs.lambda_Scenario_GettingStartedFunctions.start-->
+<!--custom.basic_prereqs.lambda_Scenario_GettingStartedFunctions.end-->
 
 
-<!--custom.scenarios.lambda_Scenario_GettingStartedFunctions.start-->
-Before you can run the getting started with Lambda scenario, you must upload
-the following two files to an Amazon Simple Storage Service (Amazon S3) bucket that you
-own:
+<!--custom.basics.lambda_Scenario_GettingStartedFunctions.start-->
+<!--custom.basics.lambda_Scenario_GettingStartedFunctions.end-->
 
- * [LambdaIncrement.zip](LambdaIncrement.zip)
- * [LambdaCalculator.zip](LambdaCalculator.zip)
- 
-##### Configuration settings
 
-The scenario includes the following settings in `settings.json`:
+#### Create a serverless application to manage photos
 
- * `FunctionName` - A name for the Lambda function.
- * `Handler` - "LambdaIncrement::LambdaIncrement.Function::FunctionHandler"
- * `UpdatedHandler` - "LambdaCalculator::LambdaCalculator.Function::FunctionHandler"
- * `BucketName` - The name of the bucket containing the .zip files for the sample functions.
- * `IncrementKey` - "LambdaIncrement.zip",
- * `CalculatorKey` - "LambdaCalculator.zip",
- * `RoleName` - The name of the IAM role that gives the scenario permissions to access Lambda.
- * `PolicyArn` - The Amazon Resource Name (ARN) of a policy giving the IAM role permissions to access Lambda.
-<!--custom.scenarios.lambda_Scenario_GettingStartedFunctions.end-->
+This example shows you how to create a serverless application that lets users manage photos using labels.
+
+
+<!--custom.scenario_prereqs.cross_PAM.start-->
+<!--custom.scenario_prereqs.cross_PAM.end-->
+
+
+<!--custom.scenarios.cross_PAM.start-->
+<!--custom.scenarios.cross_PAM.end-->
+
+#### Create an application to analyze customer feedback
+
+This example shows you how to create an application that analyzes customer comment cards, translates them from their original language, determines their sentiment, and generates an audio file from the translated text.
+
+
+<!--custom.scenario_prereqs.cross_FSA.start-->
+<!--custom.scenario_prereqs.cross_FSA.end-->
+
+
+<!--custom.scenarios.cross_FSA.start-->
+<!--custom.scenarios.cross_FSA.end-->
+
+#### Transform data with S3 Object Lambda
+
+This example shows you how to transform data for your application with S3 Object Lambda.
+
+
+<!--custom.scenario_prereqs.cross_ServerlessS3DataTransformation.start-->
+<!--custom.scenario_prereqs.cross_ServerlessS3DataTransformation.end-->
+
+
+<!--custom.scenarios.cross_ServerlessS3DataTransformation.start-->
+<!--custom.scenarios.cross_ServerlessS3DataTransformation.end-->
 
 ### Tests
 
