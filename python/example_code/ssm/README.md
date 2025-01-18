@@ -36,7 +36,14 @@ python -m pip install -r requirements.txt
 
 ### Get started
 
-- [Hello Systems Manager](hello.py#L4) (`listThings`)
+- [Hello Systems Manager](hello.py#L4) (`ListDocuments`)
+
+
+### Basics
+
+Code examples that show you how to perform the essential operations within a service.
+
+- [Learn the basics](ssm_getting_started.py)
 
 
 ### Single actions
@@ -49,18 +56,11 @@ Code excerpts that show you how to call individual service functions.
 - [DeleteDocument](document.py#L59)
 - [DeleteMaintenanceWindow](maintenance_window.py#L73)
 - [DeleteOpsItem](ops_item.py#L73)
-- [DescribeOpsItems](ops_item.py#L13)
+- [DescribeOpsItems](ops_item.py#L95)
 - [ListCommandInvocations](document.py#L159)
 - [SendCommand](document.py#L82)
 - [UpdateMaintenanceWindow](maintenance_window.py#L97)
 - [UpdateOpsItem](ops_item.py#L126)
-
-### Scenarios
-
-Code examples that show you how to accomplish a specific task by calling multiple
-functions within the same service.
-
-- [Get started with Systems Manager](ssm_getting_started.py)
 
 
 <!--custom.examples.start-->
@@ -82,14 +82,13 @@ This example shows you how to get started using Systems Manager.
 python hello.py
 ```
 
-
-#### Get started with Systems Manager
+#### Learn the basics
 
 This example shows you how to work with Systems Manager maintenance windows, documents, and OpsItems.
 
 
-<!--custom.scenario_prereqs.ssm_Scenario.start-->
-<!--custom.scenario_prereqs.ssm_Scenario.end-->
+<!--custom.basic_prereqs.ssm_Scenario.start-->
+<!--custom.basic_prereqs.ssm_Scenario.end-->
 
 Start the example by running the following at a command prompt:
 
@@ -98,8 +97,9 @@ python ssm_getting_started.py
 ```
 
 
-<!--custom.scenarios.ssm_Scenario.start-->
-<!--custom.scenarios.ssm_Scenario.end-->
+<!--custom.basics.ssm_Scenario.start-->
+<!--custom.basics.ssm_Scenario.end-->
+
 
 ### Tests
 

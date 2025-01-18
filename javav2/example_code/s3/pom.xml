@@ -120,10 +120,6 @@
         </dependency>
         <dependency>
             <groupId>software.amazon.awssdk</groupId>
-            <artifactId>cloudformation</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>software.amazon.awssdk</groupId>
             <artifactId>apache-client</artifactId>
         </dependency>
         <dependency>
@@ -181,6 +177,10 @@
         <dependency>
             <groupId>software.amazon.awssdk</groupId>
             <artifactId>iam-policy-builder</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>software.amazon.awssdk</groupId>
+            <artifactId>iam</artifactId>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>

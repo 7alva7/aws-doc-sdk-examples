@@ -498,6 +498,15 @@ glue_GetTables:
     glue: {GetTables}
 glue_CreateJob:
   languages:
+    Java:
+      versions:
+        - sdk_version: 2
+          github: javav2/example_code/glue
+          sdkguide:
+          excerpts:
+            - description:
+              snippet_tags:
+                - glue.java2.create_job.main
     .NET:
       versions:
         - sdk_version: 3
@@ -568,6 +577,15 @@ glue_CreateJob:
     glue: {CreateJob}
 glue_StartJobRun:
   languages:
+    Java:
+      versions:
+        - sdk_version: 2
+          github: javav2/example_code/glue
+          sdkguide:
+          excerpts:
+            - description:
+              snippet_tags:
+                - glue.java2.start.job.main
     .NET:
       versions:
         - sdk_version: 3
@@ -715,6 +733,15 @@ glue_GetJobRuns:
             - description:
               snippet_tags:
                 - Glue.dotnetv3.GetJobRuns
+    Java:
+      versions:
+        - sdk_version: 2
+          github: javav2/example_code/glue
+          sdkguide:
+          excerpts:
+            - description:
+              snippet_tags:
+                - glue.java2.get_job.main
     PHP:
       versions:
         - sdk_version: 3
@@ -836,6 +863,15 @@ glue_GetJobRun:
     glue: {GetJobRun}
 glue_DeleteJob:
   languages:
+    Java:
+      versions:
+        - sdk_version: 2
+          github: javav2/example_code/glue
+          sdkguide:
+          excerpts:
+            - description:
+              snippet_tags:
+                - glue.java2.delete_job.main
     .NET:
       versions:
         - sdk_version: 3
@@ -961,6 +997,15 @@ glue_DeleteTable:
     glue: {DeleteTable}
 glue_DeleteDatabase:
   languages:
+    Java:
+      versions:
+        - sdk_version: 2
+          github: javav2/example_code/glue
+          sdkguide:
+          excerpts:
+            - description:
+              snippet_tags:
+                - glue.java2.delete_database.main
     .NET:
       versions:
         - sdk_version: 3
@@ -1029,6 +1074,15 @@ glue_DeleteDatabase:
     glue: {DeleteDatabase}
 glue_DeleteCrawler:
   languages:
+    Java:
+      versions:
+        - sdk_version: 2
+          github: javav2/example_code/glue
+          sdkguide:
+          excerpts:
+            - description:
+              snippet_tags:
+                - glue.java2.delete_crawler.main
     .NET:
       versions:
         - sdk_version: 3
@@ -1120,15 +1174,13 @@ glue_GetJob:
   services:
     glue: {GetJob}
 glue_Scenario_GetStartedCrawlersJobs:
-  title: Get started running &GLU; crawlers and jobs using an &AWS; SDK
-  title_abbrev: Get started with crawlers and jobs
   synopsis_list:
     - Create a crawler that crawls a public &S3; bucket and generates a database of CSV-formatted metadata.
     - List information about databases and tables in your &GLUDCLong;.
     - Create a job to extract CSV data from the S3 bucket, transform the data, and load JSON-formatted output into another
       S3 bucket.
     - List information about job runs, view transformed data, and clean up resources.
-  category: Scenarios
+  category: Basics
   guide_topic:
     title: 'Tutorial: Getting started with &GLU; Studio'
     url: glue/latest/ug/tutorial-create-job.html

@@ -44,14 +44,14 @@ Code excerpts that show you how to call individual service functions.
 - [ListLexicons](polly_wrapper.py#L286)
 - [PutLexicon](polly_wrapper.py#L249)
 - [StartSpeechSynthesisTask](polly_wrapper.py#L147)
-- [SynthesizeSpeech](polly_wrapper.py#L20)
+- [SynthesizeSpeech](polly_wrapper.py#L54)
 
 ### Scenarios
 
 Code examples that show you how to accomplish a specific task by calling multiple
 functions within the same service.
 
-- [Create a lip-sync application](python/example_code/polly)
+- [Create a lip-sync application](../../example_code/polly)
 
 
 <!--custom.examples.start-->

@@ -29,6 +29,13 @@ For prerequisites, see the [README](../../README.md#Prerequisites) in the `php` 
 <!--custom.prerequisites.start-->
 <!--custom.prerequisites.end-->
 
+### Basics
+
+Code examples that show you how to perform the essential operations within a service.
+
+- [Learn the basics](GettingStartedWithLambda.php)
+
+
 ### Single actions
 
 Code excerpts that show you how to call individual service functions.
@@ -45,12 +52,6 @@ Code excerpts that show you how to call individual service functions.
 
 Code examples that show you how to accomplish a specific task by calling multiple
 functions within the same service.
-
-- [Get started with functions](GettingStartedWithLambda.php)
-
-### Cross-service examples
-
-Sample applications that work across multiple AWS services.
 
 - [Create a serverless application to manage photos](../../applications/photo_asset_manager)
 
@@ -102,8 +103,7 @@ following:
 <!--custom.instructions.end-->
 
 
-
-#### Get started with functions
+#### Learn the basics
 
 This example shows you how to do the following:
 
@@ -113,12 +113,25 @@ This example shows you how to do the following:
 - Invoke the function with new parameters and get results. Display the returned execution log.
 - List the functions for your account, then clean up resources.
 
-<!--custom.scenario_prereqs.lambda_Scenario_GettingStartedFunctions.start-->
-<!--custom.scenario_prereqs.lambda_Scenario_GettingStartedFunctions.end-->
+<!--custom.basic_prereqs.lambda_Scenario_GettingStartedFunctions.start-->
+<!--custom.basic_prereqs.lambda_Scenario_GettingStartedFunctions.end-->
 
 
-<!--custom.scenarios.lambda_Scenario_GettingStartedFunctions.start-->
-<!--custom.scenarios.lambda_Scenario_GettingStartedFunctions.end-->
+<!--custom.basics.lambda_Scenario_GettingStartedFunctions.start-->
+<!--custom.basics.lambda_Scenario_GettingStartedFunctions.end-->
+
+
+#### Create a serverless application to manage photos
+
+This example shows you how to create a serverless application that lets users manage photos using labels.
+
+
+<!--custom.scenario_prereqs.cross_PAM.start-->
+<!--custom.scenario_prereqs.cross_PAM.end-->
+
+
+<!--custom.scenarios.cross_PAM.start-->
+<!--custom.scenarios.cross_PAM.end-->
 
 ### Tests
 
