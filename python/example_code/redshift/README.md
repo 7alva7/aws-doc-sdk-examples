@@ -36,7 +36,14 @@ python -m pip install -r requirements.txt
 
 ### Get started
 
-- [Hello Amazon Redshift](hello.py#L4) (`describeClusters`)
+- [Hello Amazon Redshift](hello.py#L4) (`DescribeClusters`)
+
+
+### Basics
+
+Code examples that show you how to perform the essential operations within a service.
+
+- [Learn the basics](redshift_scenario.py)
 
 
 ### Single actions
@@ -44,19 +51,11 @@ python -m pip install -r requirements.txt
 Code excerpts that show you how to call individual service functions.
 
 - [CreateCluster](redshift.py#L39)
-- [CreateTable](redshift_scenario.py#L201)
 - [DeleteCluster](redshift.py#L81)
 - [DescribeClusters](redshift.py#L125)
 - [DescribeStatement](redshift_data.py#L94)
 - [GetStatementResult](redshift_data.py#L115)
 - [ModifyCluster](redshift.py#L102)
-
-### Scenarios
-
-Code examples that show you how to accomplish a specific task by calling multiple
-functions within the same service.
-
-- [Get started with Amazon Redshift](redshift_scenario.py)
 
 
 <!--custom.examples.start-->
@@ -78,14 +77,13 @@ This example shows you how to get started using Amazon Redshift.
 python hello.py
 ```
 
+#### Learn the basics
 
-#### Get started with Amazon Redshift
-
-This example shows you how to work with Amazon Redshift tables, items, and queries.
+This example shows you how to learn core operations for Amazon Redshift using an AWS SDK.
 
 
-<!--custom.scenario_prereqs.redshift_Scenario.start-->
-<!--custom.scenario_prereqs.redshift_Scenario.end-->
+<!--custom.basic_prereqs.redshift_Scenario.start-->
+<!--custom.basic_prereqs.redshift_Scenario.end-->
 
 Start the example by running the following at a command prompt:
 
@@ -94,8 +92,9 @@ python redshift_scenario.py
 ```
 
 
-<!--custom.scenarios.redshift_Scenario.start-->
-<!--custom.scenarios.redshift_Scenario.end-->
+<!--custom.basics.redshift_Scenario.start-->
+<!--custom.basics.redshift_Scenario.end-->
+
 
 ### Tests
 

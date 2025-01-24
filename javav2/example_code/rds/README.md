@@ -34,32 +34,31 @@ For prerequisites, see the [README](../../README.md#Prerequisites) in the `javav
 - [Hello Amazon RDS](src/main/java/com/example/rds/DescribeDBInstances.java#L6) (`DescribeDBInstances`)
 
 
+### Basics
+
+Code examples that show you how to perform the essential operations within a service.
+
+- [Learn the basics](src/main/java/com/example/rds/RDSScenario.java)
+
+
 ### Single actions
 
 Code excerpts that show you how to call individual service functions.
 
 - [CreateDBInstance](src/main/java/com/example/rds/CreateDBInstance.java#L6)
-- [CreateDBParameterGroup](src/main/java/com/example/rds/RDSScenario.java#L554)
+- [CreateDBParameterGroup](src/main/java/com/example/rds/RDSScenario.java#L553)
 - [CreateDBSnapshot](src/main/java/com/example/rds/RDSScenario.java#L328)
 - [DeleteDBInstance](src/main/java/com/example/rds/DeleteDBInstance.java#L6)
 - [DeleteDBParameterGroup](src/main/java/com/example/rds/RDSScenario.java#L224)
 - [DescribeAccountAttributes](src/main/java/com/example/rds/DescribeAccountAttributes.java#L6)
-- [DescribeDBEngineVersions](src/main/java/com/example/rds/RDSScenario.java#L573)
+- [DescribeDBEngineVersions](src/main/java/com/example/rds/RDSScenario.java#L572)
 - [DescribeDBInstances](src/main/java/com/example/rds/DescribeDBInstances.java#L6)
-- [DescribeDBParameterGroups](src/main/java/com/example/rds/RDSScenario.java#L532)
-- [DescribeDBParameters](src/main/java/com/example/rds/RDSScenario.java#L492)
-- [DescribeOrderableDBInstanceOptions](src/main/java/com/example/rds/RDSScenario.java#L442)
+- [DescribeDBParameterGroups](src/main/java/com/example/rds/RDSScenario.java#L531)
+- [DescribeDBParameters](src/main/java/com/example/rds/RDSScenario.java#L491)
 - [GenerateRDSAuthToken](src/main/java/com/example/rds/GenerateRDSAuthToken.java#L15)
 - [ModifyDBInstance](src/main/java/com/example/rds/ModifyDBInstance.java#L6)
-- [ModifyDBParameterGroup](src/main/java/com/example/rds/RDSScenario.java#L465)
+- [ModifyDBParameterGroup](src/main/java/com/example/rds/RDSScenario.java#L464)
 - [RebootDBInstance](src/main/java/com/example/rds/RebootDBInstance.java#L6)
-
-### Scenarios
-
-Code examples that show you how to accomplish a specific task by calling multiple
-functions within the same service.
-
-- [Get started with DB instances](src/main/java/com/example/rds/RDSScenario.java)
 
 
 <!--custom.examples.start-->
@@ -78,8 +77,7 @@ functions within the same service.
 This example shows you how to get started using Amazon RDS.
 
 
-
-#### Get started with DB instances
+#### Learn the basics
 
 This example shows you how to do the following:
 
@@ -88,12 +86,13 @@ This example shows you how to do the following:
 - Take a snapshot of the instance.
 - Delete the instance and parameter group.
 
-<!--custom.scenario_prereqs.rds_Scenario_GetStartedInstances.start-->
-<!--custom.scenario_prereqs.rds_Scenario_GetStartedInstances.end-->
+<!--custom.basic_prereqs.rds_Scenario_GetStartedInstances.start-->
+<!--custom.basic_prereqs.rds_Scenario_GetStartedInstances.end-->
 
 
-<!--custom.scenarios.rds_Scenario_GetStartedInstances.start-->
-<!--custom.scenarios.rds_Scenario_GetStartedInstances.end-->
+<!--custom.basics.rds_Scenario_GetStartedInstances.start-->
+<!--custom.basics.rds_Scenario_GetStartedInstances.end-->
+
 
 ### Tests
 

@@ -31,18 +31,18 @@ For prerequisites, see the [README](../../README.md#Prerequisites) in the `javas
 
 ### Get started
 
-- [Hello Elastic Load Balancing](hello.js) (`DescribeLoadBalancers`)
+- [Hello Elastic Load Balancing - Version 2](hello.js) (`DescribeLoadBalancers`)
 
 
 ### Single actions
 
 Code excerpts that show you how to call individual service functions.
 
-- [CreateListener](../cross-services/wkflw-resilient-service/steps-deploy.js#L463)
-- [CreateLoadBalancer](../cross-services/wkflw-resilient-service/steps-deploy.js#L435)
-- [CreateTargetGroup](../cross-services/wkflw-resilient-service/steps-deploy.js#L402)
-- [DeleteLoadBalancer](../cross-services/wkflw-resilient-service/steps-destroy.js#L293)
-- [DeleteTargetGroup](../cross-services/wkflw-resilient-service/steps-destroy.js#L327)
+- [CreateListener](../cross-services/wkflw-resilient-service/steps-deploy.js#L464)
+- [CreateLoadBalancer](../cross-services/wkflw-resilient-service/steps-deploy.js#L436)
+- [CreateTargetGroup](../cross-services/wkflw-resilient-service/steps-deploy.js#L403)
+- [DeleteLoadBalancer](../cross-services/wkflw-resilient-service/steps-destroy.js#L287)
+- [DeleteTargetGroup](../cross-services/wkflw-resilient-service/steps-destroy.js#L320)
 - [DescribeLoadBalancers](hello.js)
 - [DescribeTargetGroups](../cross-services/wkflw-resilient-service/steps-demo.js#L77)
 - [DescribeTargetHealth](../cross-services/wkflw-resilient-service/steps-demo.js#L86)
@@ -72,17 +72,28 @@ node ./actions/<fileName>
 ```
 
 **Run a scenario**
+
 Most scenarios can be run with the following command:
 ```bash
 node ./scenarios/<fileName>
 ```
 
+**Run with options**
+
+Some actions and scenarios can be run with options from the command line:
+```bash
+node ./scenarios/<fileName> --option1 --option2
+```
+[util.parseArgs](https://nodejs.org/api/util.html#utilparseargsconfig) is used to configure
+these options. For the specific options available to each script, see the `parseArgs` usage
+for that file.
+
 <!--custom.instructions.start-->
 <!--custom.instructions.end-->
 
-#### Hello Elastic Load Balancing
+#### Hello Elastic Load Balancing - Version 2
 
-This example shows you how to get started using Elastic Load Balancing.
+This example shows you how to get started using Elastic Load Balancing - Version 2.
 
 ```bash
 node ./hello.js
