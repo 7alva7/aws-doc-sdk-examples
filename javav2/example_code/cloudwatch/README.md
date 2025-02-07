@@ -34,35 +34,35 @@ For prerequisites, see the [README](../../README.md#Prerequisites) in the `javav
 - [Hello CloudWatch](src/main/java/com/example/cloudwatch/HelloService.java#L6) (`ListMetrics`)
 
 
+### Basics
+
+Code examples that show you how to perform the essential operations within a service.
+
+- [Learn the basics](src/main/java/com/example/cloudwatch/scenario/CloudWatchScenario.java)
+
+
 ### Single actions
 
 Code excerpts that show you how to call individual service functions.
 
-- [DeleteAlarms](src/main/java/com/example/cloudwatch/DeleteAlarm.java#L6)
-- [DeleteAnomalyDetector](src/main/java/com/example/cloudwatch/CloudWatchScenario.java#L299)
-- [DeleteDashboards](src/main/java/com/example/cloudwatch/CloudWatchScenario.java#L347)
-- [DescribeAlarmHistory](src/main/java/com/example/cloudwatch/CloudWatchScenario.java#L460)
-- [DescribeAlarms](src/main/java/com/example/cloudwatch/CloudWatchScenario.java#L635)
-- [DescribeAlarmsForMetric](src/main/java/com/example/cloudwatch/CloudWatchScenario.java#L495)
-- [DescribeAnomalyDetectors](src/main/java/com/example/cloudwatch/CloudWatchScenario.java#L403)
+- [DeleteAlarms](src/main/java/com/example/cloudwatch/scenario/CloudWatchActions.java#L169)
+- [DeleteAnomalyDetector](src/main/java/com/example/cloudwatch/scenario/CloudWatchActions.java#L127)
+- [DeleteDashboards](src/main/java/com/example/cloudwatch/scenario/CloudWatchActions.java#L194)
+- [DescribeAlarmHistory](src/main/java/com/example/cloudwatch/scenario/CloudWatchActions.java#L372)
+- [DescribeAlarms](src/main/java/com/example/cloudwatch/scenario/CloudWatchActions.java#L658)
+- [DescribeAlarmsForMetric](src/main/java/com/example/cloudwatch/scenario/CloudWatchActions.java#L433)
+- [DescribeAnomalyDetectors](src/main/java/com/example/cloudwatch/scenario/CloudWatchActions.java#L276)
 - [DisableAlarmActions](src/main/java/com/example/cloudwatch/DisableAlarmActions.java#L6)
 - [EnableAlarmActions](src/main/java/com/example/cloudwatch/EnableAlarmActions.java#L6)
-- [GetMetricData](src/main/java/com/example/cloudwatch/CloudWatchScenario.java#L576)
-- [GetMetricStatistics](src/main/java/com/example/cloudwatch/CloudWatchScenario.java#L843)
-- [GetMetricWidgetImage](src/main/java/com/example/cloudwatch/CloudWatchScenario.java#L363)
-- [ListDashboards](src/main/java/com/example/cloudwatch/CloudWatchScenario.java#L755)
-- [ListMetrics](src/main/java/com/example/cloudwatch/ListMetrics.java#L6)
-- [PutAnomalyDetector](src/main/java/com/example/cloudwatch/CloudWatchScenario.java#L431)
-- [PutDashboard](src/main/java/com/example/cloudwatch/CloudWatchScenario.java#L773)
-- [PutMetricAlarm](src/main/java/com/example/cloudwatch/CloudWatchScenario.java#L659)
-- [PutMetricData](src/main/java/com/example/cloudwatch/CloudWatchScenario.java#L530)
-
-### Scenarios
-
-Code examples that show you how to accomplish a specific task by calling multiple
-functions within the same service.
-
-- [Get started with metrics, dashboards, and alarms](src/main/java/com/example/cloudwatch/CloudWatchScenario.java)
+- [GetMetricData](src/main/java/com/example/cloudwatch/scenario/CloudWatchActions.java#L579)
+- [GetMetricStatistics](src/main/java/com/example/cloudwatch/scenario/CloudWatchActions.java#L940)
+- [GetMetricWidgetImage](src/main/java/com/example/cloudwatch/scenario/CloudWatchActions.java#L218)
+- [ListDashboards](src/main/java/com/example/cloudwatch/scenario/CloudWatchActions.java#L828)
+- [ListMetrics](src/main/java/com/example/cloudwatch/scenario/CloudWatchActions.java#L990)
+- [PutAnomalyDetector](src/main/java/com/example/cloudwatch/scenario/CloudWatchActions.java#L325)
+- [PutDashboard](src/main/java/com/example/cloudwatch/scenario/CloudWatchActions.java#L850)
+- [PutMetricAlarm](src/main/java/com/example/cloudwatch/scenario/CloudWatchActions.java#L693)
+- [PutMetricData](src/main/java/com/example/cloudwatch/scenario/CloudWatchActions.java#L510)
 
 
 <!--custom.examples.start-->
@@ -81,8 +81,7 @@ functions within the same service.
 This example shows you how to get started using CloudWatch.
 
 
-
-#### Get started with metrics, dashboards, and alarms
+#### Learn the basics
 
 This example shows you how to do the following:
 
@@ -94,12 +93,13 @@ This example shows you how to do the following:
 - Add an anomaly detector.
 - Get a metric image, then clean up resources.
 
-<!--custom.scenario_prereqs.cloudwatch_GetStartedMetricsDashboardsAlarms.start-->
-<!--custom.scenario_prereqs.cloudwatch_GetStartedMetricsDashboardsAlarms.end-->
+<!--custom.basic_prereqs.cloudwatch_GetStartedMetricsDashboardsAlarms.start-->
+<!--custom.basic_prereqs.cloudwatch_GetStartedMetricsDashboardsAlarms.end-->
 
 
-<!--custom.scenarios.cloudwatch_GetStartedMetricsDashboardsAlarms.start-->
-<!--custom.scenarios.cloudwatch_GetStartedMetricsDashboardsAlarms.end-->
+<!--custom.basics.cloudwatch_GetStartedMetricsDashboardsAlarms.start-->
+<!--custom.basics.cloudwatch_GetStartedMetricsDashboardsAlarms.end-->
+
 
 ### Tests
 

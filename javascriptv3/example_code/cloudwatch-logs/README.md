@@ -40,7 +40,7 @@ Code excerpts that show you how to call individual service functions.
 - [DescribeSubscriptionFilters](actions/describe-subscription-filters.js#L4)
 - [GetQueryResults](scenarios/large-query/cloud-watch-query.js#L108)
 - [PutSubscriptionFilter](actions/put-subscription-filter.js#L4)
-- [StartQuery](scenarios/large-query/cloud-watch-query.js#L142)
+- [StartQuery](scenarios/large-query/cloud-watch-query.js#L141)
 
 ### Scenarios
 
@@ -67,10 +67,21 @@ node ./actions/<fileName>
 ```
 
 **Run a scenario**
+
 Most scenarios can be run with the following command:
 ```bash
 node ./scenarios/<fileName>
 ```
+
+**Run with options**
+
+Some actions and scenarios can be run with options from the command line:
+```bash
+node ./scenarios/<fileName> --option1 --option2
+```
+[util.parseArgs](https://nodejs.org/api/util.html#utilparseargsconfig) is used to configure
+these options. For the specific options available to each script, see the `parseArgs` usage
+for that file.
 
 <!--custom.instructions.start-->
 <!--custom.instructions.end-->

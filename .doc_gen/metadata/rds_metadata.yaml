@@ -783,15 +783,6 @@ rds_DescribeDBEngineVersions:
     rds: {DescribeDBEngineVersions}
 rds_DescribeOrderableDBInstanceOptions:
   languages:
-    Java:
-      versions:
-        - sdk_version: 2
-          github: javav2/example_code/rds
-          sdkguide:
-          excerpts:
-            - description:
-              snippet_tags:
-                - rds.java2.scenario.get_engines.main
     .NET:
       versions:
         - sdk_version: 3
@@ -849,14 +840,12 @@ rds_GenerateRDSAuthToken:
   services:
     rds: {GenerateRDSAuthToken}
 rds_Scenario_GetStartedInstances:
-  title: Get started with &RDS; DB instances using an &AWS; SDK
-  title_abbrev: Get started with DB instances
   synopsis_list:
     - Create a custom DB parameter group and set parameter values.
     - Create a DB instance that's configured to use the parameter group. The DB instance also contains a database.
     - Take a snapshot of the instance.
     - Delete the instance and parameter group.
-  category: Scenarios
+  category: Basics
   languages:
     Kotlin:
       versions:

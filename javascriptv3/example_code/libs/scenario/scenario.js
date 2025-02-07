@@ -3,10 +3,9 @@
 
 import { Prompter } from "../prompter.js";
 import { Logger } from "../logger.js";
-import { SlowLogger } from "../slow-logger.js";
 
 /**
- * @typedef {{ confirmAll: boolean, verbose: boolean }} StepHandlerOptions
+ * @typedef {{ confirmAll: boolean, verbose: boolean, noArt: boolean }} StepHandlerOptions
  */
 
 /**
@@ -56,7 +55,7 @@ export class Step {
 }
 
 /**
- * @typedef {{ slow: boolean, header: boolean, preformatted: boolean }} ScenarioOutputOptions
+ * @typedef {{ header: boolean, preformatted: boolean }} ScenarioOutputOptions
  */
 
 /**
@@ -66,12 +65,11 @@ export class ScenarioOutput extends Step {
   /**
    * @param {string} name
    * @param {string | (state: Record<string, any>) => string | false} value
-   * @param {ScenarioOutputOptions} [scenarioOutputOptions]
+   * @param {Step<ScenarioOutputOptions>['stepOptions']} [scenarioOutputOptions]
    */
-  constructor(name, value, scenarioOutputOptions = { slow: true }) {
+  constructor(name, value, scenarioOutputOptions = {}) {
     super(name, scenarioOutputOptions);
     this.value = value;
-    this.slowLogger = new SlowLogger(20);
     this.logger = new Logger();
   }
 
@@ -81,7 +79,9 @@ export class ScenarioOutput extends Step {
    */
   async handle(state, stepHandlerOptions) {
     if (this.stepOptions.skipWhen(state)) {
-      console.log(`Skipping step: ${this.name}`);
+      if (stepHandlerOptions.verbose) {
+        console.log(`Skipping step: ${this.name}`);
+      }
       return;
     }
     super.handle(state, stepHandlerOptions);
@@ -93,14 +93,15 @@ export class ScenarioOutput extends Step {
     }
     const paddingTop = "\n";
     const paddingBottom = "\n";
-    const logger =
-      this.stepOptions?.slow && !stepHandlerOptions?.confirmAll
-        ? this.slowLogger
-        : this.logger;
+    const logger = this.logger;
     const message = paddingTop + output + paddingBottom;
 
     if (this.stepOptions?.header) {
-      await this.logger.log(this.logger.box(message));
+      if (stepHandlerOptions.noArt === true) {
+        await this.logger.log(message);
+      } else {
+        await this.logger.log(this.logger.box(message));
+      }
     } else {
       await logger.log(message, this.stepOptions?.preformatted);
     }
@@ -109,8 +110,9 @@ export class ScenarioOutput extends Step {
 
 /**
  * @typedef {{
- *   type: "confirm" | "input" | "multi-select" | "select",
- *   choices: (string | { name: string, value: string })[] }
+ *   type: "confirm" | "input" | "multi-select" | "select" | "password",
+ *   choices: (string | { name: string, value: string })[] | () => (string | { name: string, value: string })[],
+ *   default: string | string[] | boolean | () => string | string[] | boolean }
  *   } ScenarioInputOptions
  */
 
@@ -121,7 +123,7 @@ export class ScenarioInput extends Step {
   /**
    * @param {string} name
    * @param {string | (c: Record<string, any>) => string | false } prompt
-   * @param {ScenarioInputOptions} [scenarioInputOptions]
+   * @param {Step<ScenarioInputOptions>['stepOptions']} [scenarioInputOptions]
    */
   constructor(name, prompt, scenarioInputOptions) {
     super(name, scenarioInputOptions);
@@ -133,52 +135,204 @@ export class ScenarioInput extends Step {
    * @param {Record<string, any>} state
    * @param {StepHandlerOptions} [stepHandlerOptions]
    */
-  async handle(state, stepHandlerOptions) {
+  async handle(state, stepHandlerOptions = {}) {
     if (this.stepOptions.skipWhen(state)) {
-      console.log(`Skipping step: ${this.name}`);
+      if (stepHandlerOptions.verbose) {
+        console.log(`Skipping step: ${this.name}`);
+      }
       return;
     }
     super.handle(state, stepHandlerOptions);
-    const message =
-      typeof this.prompt === "function" ? this.prompt(state) : this.prompt;
-    if (!message) {
-      return;
+
+    this.default =
+      typeof this.stepOptions.default === "function"
+        ? this.stepOptions.default(state)
+        : this.stepOptions.default;
+
+    if (
+      stepHandlerOptions.confirmAll &&
+      this.stepOptions.default !== undefined
+    ) {
+      state[this.name] = this.default;
+      return state[this.name];
     }
-
-    const choices =
-      this.stepOptions?.choices &&
-      typeof this.stepOptions?.choices[0] === "string"
-        ? this.stepOptions?.choices.map((s) => ({ name: s, value: s }))
-        : this.stepOptions?.choices;
-
-    if (this.stepOptions?.type === "multi-select") {
-      state[this.name] = await this.prompter.checkbox({
-        message,
-        choices,
-      });
-    } else if (this.stepOptions?.type === "select") {
-      state[this.name] = await this.prompter.select({
-        message,
-        choices,
-      });
-    } else if (this.stepOptions?.type === "input") {
-      state[this.name] = await this.prompter.input({ message });
-    } else if (this.stepOptions?.type === "confirm") {
-      if (stepHandlerOptions?.confirmAll) {
+    if (stepHandlerOptions.confirmAll) {
+      if (this.stepOptions?.type === "confirm") {
         state[this.name] = true;
         return true;
       }
-
-      state[this.name] = await this.prompter.confirm({
-        message,
-      });
-    } else {
       throw new Error(
-        `Error handling ScenarioInput, ${this.stepOptions?.type} is not supported.`,
+        `Error handling ScenarioInput. confirmAll was selected for ${this.name} but no default was provided.`,
       );
     }
 
+    switch (this.stepOptions?.type) {
+      case "multi-select":
+        await this._handleMultiSelect(state);
+        break;
+      case "select":
+        await this._handleSelect(state);
+        break;
+      case "input":
+        await this._handleInput(state);
+        break;
+      case "confirm":
+        await this._handleConfirm(state);
+        break;
+      case "password":
+        await this._handlePassword(state);
+        break;
+      default:
+        throw new Error(
+          `Error handling ScenarioInput, ${this.stepOptions?.type} is not supported.`,
+        );
+    }
+
     return state[this.name];
+  }
+
+  /**
+   * @param {Record<string, any>} state
+   */
+  _getChoices(state) {
+    if (this.choices) {
+      return this.choices;
+    }
+
+    const rawChoices =
+      typeof this.stepOptions.choices === "function"
+        ? this.stepOptions.choices(state)
+        : this.stepOptions.choices;
+
+    if (!rawChoices) {
+      throw new Error(
+        `Error handling ScenarioInput. Could not get choices for ${this.name}.`,
+      );
+    }
+
+    this.choices =
+      typeof rawChoices[0] === "string"
+        ? rawChoices.map((s) => ({ name: s, value: s }))
+        : rawChoices;
+
+    return this.choices;
+  }
+
+  /**
+   * @param {Record<string, any>} state
+   */
+  async _handleMultiSelect(state) {
+    const message =
+      typeof this.prompt === "function" ? this.prompt(state) : this.prompt;
+
+    if (!message) {
+      throw new Error("Error handling ScenarioInput. Missing prompt.");
+    }
+
+    const result = await this.prompter.checkbox({
+      message,
+      choices: this._getChoices(state),
+    });
+
+    if (!result.length && this.default) {
+      state[this.name] = this.default;
+    } else if (!result.length) {
+      throw new Error(
+        `Error handing ScenarioInput. Result of ${this.name} was empty.`,
+      );
+    } else {
+      state[this.name] = result;
+    }
+  }
+
+  /**
+   * @param {Record<string, any>} state
+   */
+  async _handleSelect(state) {
+    const message =
+      typeof this.prompt === "function" ? this.prompt(state) : this.prompt;
+
+    if (!message) {
+      throw new Error("Error handling ScenarioInput. Missing prompt.");
+    }
+
+    if (this.stepOptions?.type === "select") {
+      const result = await this.prompter.select({
+        message,
+        choices: this._getChoices(state),
+      });
+
+      if (!result && this.default) {
+        state[this.name] = this.default;
+      } else if (result == null) {
+        throw new Error(
+          `Error handing ScenarioInput. Result of ${this.name} was empty.`,
+        );
+      } else {
+        state[this.name] = result;
+      }
+    }
+  }
+
+  /**
+   * @param {Record<string, any>} state
+   */
+  async _handleInput(state) {
+    const prompt =
+      typeof this.prompt === "function" ? this.prompt(state) : this.prompt;
+    const message = this.default ? `${prompt} (${this.default})` : prompt;
+
+    if (!message) {
+      throw new Error("Error handling ScenarioInput. Missing prompt.");
+    }
+
+    const result = await this.prompter.input({ message });
+
+    if (!result && this.default) {
+      state[this.name] = this.default;
+    } else if (result === undefined) {
+      throw new Error(
+        `Error handing ScenarioInput. Result of ${this.name} was empty.`,
+      );
+    } else {
+      state[this.name] = result;
+    }
+  }
+
+  /**
+   * @param {Record<string, any>} state
+   */
+  async _handleConfirm(state) {
+    const message =
+      typeof this.prompt === "function" ? this.prompt(state) : this.prompt;
+
+    if (!message) {
+      throw new Error("Error handling ScenarioInput. Missing prompt.");
+    }
+
+    const result = await this.prompter.confirm({
+      message,
+    });
+
+    state[this.name] = result;
+  }
+
+  /**
+   * @param {*} state
+   */
+  async _handlePassword(state) {
+    const message =
+      typeof this.prompt === "function" ? this.prompt(state) : this.prompt;
+
+    if (!message) {
+      throw new Error("Error handling ScenarioInput. Missing prompt.");
+    }
+
+    const result = await this.prompter.password({
+      message,
+    });
+
+    state[this.name] = result;
   }
 }
 
@@ -207,7 +361,9 @@ export class ScenarioAction extends Step {
    */
   async handle(state, stepHandlerOptions) {
     if (this.stepOptions.skipWhen(state)) {
-      console.log(`Skipping step: ${this.name}`);
+      if (stepHandlerOptions.verbose) {
+        console.log(`Skipping step: ${this.name}`);
+      }
       return;
     }
     const _handle = async () => {
@@ -240,9 +396,9 @@ export class ScenarioAction extends Step {
 
 export class Scenario {
   /**
-   * @type {Record<string, any>}
+   * @type { { earlyExit: boolean } & Record<string, any>}
    */
-  state = {};
+  state;
 
   /**
    * @type {(ScenarioOutput | ScenarioInput | ScenarioAction | Scenario)[]}
@@ -257,7 +413,7 @@ export class Scenario {
   constructor(name, stepsOrScenarios = [], initialState = {}) {
     this.name = name;
     this.stepsOrScenarios = stepsOrScenarios.filter((s) => !!s);
-    this.state = { ...initialState, name };
+    this.state = { ...initialState, name, earlyExit: false };
   }
 
   /**
@@ -265,6 +421,13 @@ export class Scenario {
    */
   async run(stepHandlerOptions) {
     for (const stepOrScenario of this.stepsOrScenarios) {
+      /**
+       * Add an escape hatch for actions that terminate the scenario early.
+       */
+      if (this.state.earlyExit) {
+        return;
+      }
+
       if (stepOrScenario instanceof Scenario) {
         await stepOrScenario.run(stepHandlerOptions);
       } else {
